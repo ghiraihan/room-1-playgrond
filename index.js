@@ -7,7 +7,7 @@ const lihatHistory=require('./model/history.js');
 const app = express();
 app.use(express.urlencoded());
 //controller
-const hitungLuasLingkaran=require('./controller/hitungLuasLingkaran.js');
+const hitungLuasLingkaran = require('./controller/hitungLuasLingkaran.js');
 const hitungKelilingLingkaran=require('./controller/hitungKelilingLingkaran.js');
 //4  todo :routing
 app.get('/keliling-lingkaran', function(request, response){

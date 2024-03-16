@@ -12,6 +12,7 @@ function hitungLuasLingkaran(request, response){
     });
 
     response.send(`Lingkaran yang jari jarinya ${jariJari} Luasnya adalah ${luas}`);
+    return luas;
 }
 
 module.exports = hitungLuasLingkaran;
