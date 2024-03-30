@@ -22,3 +22,5 @@ function temperature(suhu,satuan,konv){
     console.log ("Silahkan isi dengan benar!");
 }
 }
+
+module.exports = temperature;
