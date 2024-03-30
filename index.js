@@ -10,6 +10,12 @@ app.use(express.urlencoded());
 const hitungLuasLingkaran = require('./controller/hitungLuasLingkaran.js');
 const hitungKelilingLingkaran=require('./controller/hitungKelilingLingkaran.js');
 //4  todo :routing
+
+// 1. Endpoint liat history database.
+app.get('/history', function(request, response){
+    response.status(200).sendFile(path.join(__dirname, "/view/indexKelilingLingkaran.html"))
+})
+
 app.get('/keliling-lingkaran', function(request, response){
     response.status(200).sendFile(path.join(__dirname, "/view/indexKelilingLingkaran.html"))
 })
