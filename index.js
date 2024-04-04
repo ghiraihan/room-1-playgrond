@@ -1,14 +1,19 @@
 //1 call module express
 const express = require("express");
-const port = 3456;
+const PORT = process.env.PORT || 3000;
 const path = require("path");
 const lihatHistory = require("./model/history.js");
-// 2 make variable to save server
-const app = express();
-app.use(express.urlencoded());
-//controller
 const hitungLuasLingkaran = require("./controller/hitungLuasLingkaran.js");
 const hitungKelilingLingkaran = require("./controller/hitungKelilingLingkaran.js");
+//const pg = require("pg");
+require("dotenv").config();
+const temperature = require("./controller/hitung_suhu.js");
+const historyDB = require("./controller/historyDb.js");
+const postArticle = require("./controller/postArticle");
+//controller
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+
 //4  todo :routing
 app.get("/keliling-lingkaran", function (request, response) {
   response
@@ -27,7 +32,11 @@ app.get("/lihat-history", function (request, response) {
 });
 app.post("/luas-lingkaran", hitungLuasLingkaran);
 app.post("/keliling-lingkaran", hitungKelilingLingkaran);
+app.get("/history", historyDB);
+app.post("/hitung-suhu", temperature);
+app.post("/newarticle", postArticle);
+
 //3 running server
-app.listen(port, function () {
-  console.log(`server is running at locallhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
