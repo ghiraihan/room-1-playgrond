@@ -1,90 +1,42 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-
+//1 call module express
+const express = require("express");
+const PORT = process.env.PORT || 3000;
+const path = require("path");
+const lihatHistory = require("./model/history.js");
+const hitungLuasLingkaran = require("./controller/hitungLuasLingkaran.js");
+const hitungKelilingLingkaran = require("./controller/hitungKelilingLingkaran.js");
+//const pg = require("pg");
+require("dotenv").config();
+const temperature = require("./controller/hitung_suhu.js");
+const historyDB = require("./controller/historyDb.js");
+const postArticle = require("./controller/postArticle");
+//controller
 const app = express();
-
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3000;
-
-
-// Untuk konek database
-const { Client } = require('pg');
-const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
-
-const client = new Client({
-  connectionString,
+//4  todo :routing
+app.get("/keliling-lingkaran", function (request, response) {
+  response
+    .status(200)
+    .sendFile(path.join(__dirname, "/view/indexKelilingLingkaran.html"));
 });
-
-// function konversi suhu
-// Converts Celsius to Fahrenheit
-function celsiusToFahrenheit(celsius) {
-    return (celsius * 9/5) + 32;
-  }
-  
-  // Converts Celsius to Reaumur
-  function celsiusToReaumur(celsius) {
-    return (celsius * 4/5);
-  }
-  
-  // Converts Reaumur to Celsius
-  function reaumurToCelsius(reaumur) {
-    return (reaumur * 5/4);
-  }
-  
-  // Converts Fahrenheit to Celsius
-  function fahrenheitToCelsius(fahrenheit) {
-    return (fahrenheit - 32) * 5/9;
-  }
-  
-  // Converts Reaumur to Fahrenheit
-  function reaumurToFahrenheit(reaumur) {
-    return (reaumur * 9/4) + 32;
-  }
-  
-
-
-app.get('/lihat-history', (req, res) => {
-  // Define the JSON response
-  const jsonResponse = [
-    {
-      "suhuAwal": 30,
-      "satuanAwal": "C",
-      "suhuKonversi": 50
-    }
-  ];
-
-  // Send the JSON response
-  res.json(jsonResponse);
+app.get("/luas-lingkaran", function (request, response) {
+  response
+    .status(200)
+    .sendFile(path.join(__dirname, "/view/indexLuasLingkaran.html"));
 });
-
-
-app.post('/hitung-suhu', (req,res)=>{
-    const { suhuAwal, satuanAwal, satuanKonversi } = req.body;
-  let suhuKonversi;
-  let status = 'success';
-
-  try {
-    // Conversion logic based on the input and desired output units
-    if (satuanAwal === 'C' && satuanKonversi === 'F') {
-      suhuKonversi = celsiusToFahrenheit(suhuAwal);
-    } else if (satuanAwal === 'C' && satuanKonversi === 'R') {
-      suhuKonversi = celsiusToReaumur(suhuAwal);
-    } else {
-      // Kasih error
-      status = 'error';
-      throw new Error('Invalid conversion units');
-    }
-
-    // Respond status, suhuKonversi
-    res.json({ status, suhuKonversi });
-  } 
-  catch (error) 
-  {
-    res.status(400).json({ status, message: error.message });
-  }
+app.get("/lihat-history", function (request, response) {
+  response.status(200).json({
+    lihatHistory,
+  });
 });
+app.post("/luas-lingkaran", hitungLuasLingkaran);
+app.post("/keliling-lingkaran", hitungKelilingLingkaran);
+app.get("/history", historyDB);
+app.post("/hitung-suhu", temperature);
+app.post("/newarticle", postArticle);
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+//3 running server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
