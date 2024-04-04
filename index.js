@@ -7,6 +7,15 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = 3000;
 
+
+// Untuk konek database
+const { Pool } = require('pg');
+const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
+
+const pool = new Pool({
+  connectionString,
+});
+
 // function konversi suhu
 // Converts Celsius to Fahrenheit
 function celsiusToFahrenheit(celsius) {
@@ -62,12 +71,12 @@ app.post('/hitung-suhu', (req,res)=>{
     } else if (satuanAwal === 'C' && satuanKonversi === 'R') {
       suhuKonversi = celsiusToReaumur(suhuAwal);
     } else {
-      // Add more conditionals for other conversions
+      // Kasih error
       status = 'error';
       throw new Error('Invalid conversion units');
     }
 
-    // Respond with the converted temperature and status
+    // Respond status, suhuKonversi
     res.json({ status, suhuKonversi });
   } 
   catch (error) 
