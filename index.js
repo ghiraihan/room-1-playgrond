@@ -10,10 +10,26 @@ const port = 3000;
 
 // Untuk konek database
 const { Client } = require('pg');
-const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
+// const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
 
 const client = new Client({
-  connectionString,
+    host: '',
+    port: 5432,
+    database: '',
+    user: '',
+    password: ''
+//   connectionString,
+});
+
+client.connect(function(error){
+    if(error!==null)
+    {
+        console.log(error);
+    }
+    else
+    {
+        console.log("Connected to Database");
+    }
 });
 
 // function konversi suhu
