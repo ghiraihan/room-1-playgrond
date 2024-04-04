@@ -9,10 +9,10 @@ const port = 3000;
 
 
 // Untuk konek database
-const { Pool } = require('pg');
+const { Client } = require('pg');
 const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
 
-const pool = new Pool({
+const client = new Client({
   connectionString,
 });
 
