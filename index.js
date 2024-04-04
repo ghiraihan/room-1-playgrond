@@ -20,7 +20,7 @@ const client = new Client({
     port: 5432,
 });
 
-
+ 
 // function konversi suhu
 // Converts Celsius to Fahrenheit
 function celsiusToFahrenheit(celsius) {
