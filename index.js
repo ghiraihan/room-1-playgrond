@@ -1,19 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const port = 3000;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3000;
-
 
 // Untuk konek database
-const { Pool } = require('pg');
-const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
+const { Client } = require('pg');
+// const connectionString = 'postgresql://username:password@localhost:5432/databaseName'; // Replace with your credentials and database name
 
-const pool = new Pool({
-  connectionString,
+const client = new Client({
+//   connectionString,
+    user: '',
+    host: '',
+    database: '',
+    password: '',
+    port: 5432,
 });
 
 // function konversi suhu
